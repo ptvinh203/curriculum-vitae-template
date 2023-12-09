@@ -32,7 +32,6 @@ public class BasicInfo extends Entity<UUID> {
     private String aboutMe;
     private UUID cvId;
 
-
     public BasicInfo(String name, String github, String email, String address, String phone, String aboutMe,
             UUID cvId) {
         this.basicInfoId = UUID.randomUUID();
@@ -48,15 +47,15 @@ public class BasicInfo extends Entity<UUID> {
     @Override
     public Map<String, String> toValueMap(boolean includePrimary) {
         Map<String, String> result = new HashMap<>();
-        if(includePrimary)
+        if (includePrimary)
             result.put("basic_info_id", wrapString(basicInfoId.toString()));
 
         result.put("name", wrapString(name));
-        result.put("github", github);
-        result.put("email", email);
-        result.put("address", address);
-        result.put("phone", phone);
-        result.put("about_me", aboutMe);
+        result.put("github", wrapString(github));
+        result.put("email", wrapString(email));
+        result.put("address", wrapString(address));
+        result.put("phone", wrapString(phone));
+        result.put("about_me", wrapString(aboutMe));
         result.put("cv_id", wrapString(cvId.toString()));
         return result;
     }
@@ -73,7 +72,7 @@ public class BasicInfo extends Entity<UUID> {
             this.aboutMe = resultSet.getString("about_me");
             this.cvId = UUID.fromString(resultSet.getString("cv_id"));
             return this;
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;

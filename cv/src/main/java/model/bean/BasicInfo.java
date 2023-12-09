@@ -34,6 +34,7 @@ public class BasicInfo extends Entity<UUID> {
 
     public BasicInfo(String name, String github, String email, String address, String phone, String aboutMe,
             UUID cvId) {
+        this.basicInfoId = UUID.randomUUID();
         this.name = name;
         this.github = github;
         this.email = email;

@@ -29,10 +29,10 @@ public class BaseDAO<T extends Entity<U>, U> {
     public Optional<T> getById(U id) throws Exception {
         Entry<String, U> primaryEntry = this.baseEntity.getPrimaryValue();
         String condition;
-        if(id instanceof String) {
-            condition = String.format("%s='%s'", primaryEntry.getKey(), id);
-        } else {
+        if (id instanceof Number) {
             condition = String.format("%s=%s", primaryEntry.getKey(), id);
+        } else {
+            condition = String.format("%s='%s'", primaryEntry.getKey().toString(), id);
         }
 
         return new Query<T>(tableName, QueryType.SELECT, DBUtil.getInstance(), baseClass)
@@ -70,10 +70,10 @@ public class BaseDAO<T extends Entity<U>, U> {
     public void deleteById(U id) {
         Entry<String, U> primaryEntry = this.baseEntity.getPrimaryValue();
         String condition;
-        if(id instanceof String) {
-            condition = String.format("%s='%s'", primaryEntry.getKey(), id);
-        } else {
+        if (id instanceof Number) {
             condition = String.format("%s=%s", primaryEntry.getKey(), id);
+        } else {
+            condition = String.format("%s='%s'", primaryEntry.getKey().toString(), id);
         }
         try {
             new Query<>(tableName, QueryType.DELETE, DBUtil.getInstance(), baseClass)

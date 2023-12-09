@@ -1,6 +1,7 @@
 package model.bean;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -47,19 +48,38 @@ public class BasicInfo extends Entity<UUID> {
     public Map<String, String> toValueMap(boolean includePrimary) {
         Map<String, String> result = new HashMap<>();
         if(includePrimary)
-            result.put("cv_id", wrapString(cvId.toString()));
-        
+            result.put("basic_info_id", wrapString(basicInfoId.toString()));
+
+        result.put("name", wrapString(name));
+        result.put("github", github);
+        result.put("email", email);
+        result.put("address", address);
+        result.put("phone", phone);
+        result.put("about_me", aboutMe);
+        result.put("cv_id", wrapString(cvId.toString()));
+        return result;
     }
 
     @Override
     public Entity<UUID> fromResultSet(ResultSet resultSet) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'fromResultSet'");
+        try {
+            this.basicInfoId = UUID.fromString(resultSet.getString("basic_info_id"));
+            this.name = resultSet.getString("name");
+            this.github = resultSet.getString("github");
+            this.email = resultSet.getString("email");
+            this.address = resultSet.getString("address");
+            this.phone = resultSet.getString("phone");
+            this.aboutMe = resultSet.getString("about_me");
+            this.cvId = UUID.fromString(resultSet.getString("cv_id"));
+            return this;
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
     public Entry<String, UUID> getPrimaryValue() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getPrimaryValue'");
+        return Map.entry("basic_info_id", basicInfoId);
     }
 }

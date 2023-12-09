@@ -24,13 +24,13 @@ import model.util.database.Entity;
 public class UserRole extends Entity<UUID> {
 
     private UUID roleId;
-    private String rolename;
+    private String roleName;
     private Integer permission;
 
-    public UserRole(String rolename, int permission) {
+    public UserRole(String roleName, int permission) {
         this(
             UUID.randomUUID(),
-            rolename,
+            roleName,
             permission
         );
     }
@@ -40,7 +40,7 @@ public class UserRole extends Entity<UUID> {
         Map<String, String> result = new HashMap<>();
         if(includePrimary)
             result.put("role_id", wrapString(roleId.toString()));
-        result.put("rolename", wrapString(rolename));
+        result.put("role_name", wrapString(roleName));
         result.put("permission", permission.toString());
         return result;
     }
@@ -49,7 +49,7 @@ public class UserRole extends Entity<UUID> {
     public Entity<UUID> fromResultSet(ResultSet resultSet) {
         try {
             this.roleId = UUID.fromString(resultSet.getString("role_id"));
-            this.rolename = resultSet.getString("rolename");
+            this.roleName = resultSet.getString("role_name");
             this.permission = resultSet.getInt("permission");
             return this;
         } catch(SQLException e) {

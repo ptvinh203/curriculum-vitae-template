@@ -19,31 +19,22 @@ public class DBUtil {
         return _instance;
     }
 
-    private Connection connection;
-
-    private void ensureConnection() {
-        if(connection == null)
-            connection = getConnection();
-    }
-
     public Connection getConnection() {
-        if(this.connection == null) {
-            System.out.println("Making connection to: " + DB_URL);
-            try {
-                Class.forName("com.mysql.cj.jdbc.Driver");
-                this.connection = DriverManager.getConnection(DB_URL, USER_NAME, PASSWORD);
-            } catch(Exception e) {
-                e.getMessage();
-                e.printStackTrace();
-            }
-            System.out.println("Connect successfully");
+        Connection connection = null;
+        System.out.println("Making connection to: " + DB_URL);
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            connection = DriverManager.getConnection(DB_URL, USER_NAME, PASSWORD);
+        } catch(Exception e) {
+            e.getMessage();
+            e.printStackTrace();
         }
-        return this.connection;
+        System.out.println("Connect successfully");
+        return connection;
     }
 
     public Optional<ResultSet> execute(String query) {
-        ensureConnection();
-        try {
+        try(Connection connection = getConnection()) {
             Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             System.out.println("Executing: " + query);
             boolean resultType = statement.execute(query);
@@ -57,7 +48,6 @@ public class DBUtil {
     }
 
     public Optional<ResultSet> execute(Query<?> query) throws Exception {
-        ensureConnection();
         return execute(query.makeQueryString());
     }
 }

@@ -8,7 +8,15 @@ import model.util.database.BaseDAO;
 public class SkillDAO extends BaseDAO<Skill, UUID> {
 
     public SkillDAO() {
-        super("skill", Skill.class);
+        super("Skill", Skill.class);
+    }
+
+    static private SkillDAO instance;
+
+    static public SkillDAO getInstance() {
+        if (instance == null)
+            instance = new SkillDAO();
+        return instance;
     }
 
 }

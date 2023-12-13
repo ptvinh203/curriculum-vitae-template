@@ -41,14 +41,14 @@ public class UserDTO {
         UserDTO userDTO = fromEntity(user, userRoleDTO, new ArrayList<>());
 
         try {
-            List<CV> cvEntities =  cvDAO.makeQuery(QueryType.SELECT)
-                .where(String.format("user_id='%s'", user.getUserid().toString()))
-                .query()
-                .toEntityList();
+            List<CV> cvEntities = cvDAO.makeQuery(QueryType.SELECT)
+                    .where(String.format("user_id='%s'", user.getUserid().toString()))
+                    .query()
+                    .toEntityList();
             cvEntities.forEach((cv) -> {
-                userDTO.cvs.add(CVDTO.fromEntity(cv, userDTO));
+                userDTO.cvs.add(CVDTO.fromEntity(cv));
             });
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -57,13 +57,12 @@ public class UserDTO {
 
     static public UserDTO fromEntity(User user, UserRoleDTO userRoleDTO, List<CVDTO> cvs) {
         return new UserDTO(
-            user.getUserid(), 
-            user.getUsername(), 
-            user.getEmail(), 
-            user.getFirstname(), 
-            user.getLastname(), 
-            userRoleDTO,
-            cvs
-        );
+                user.getUserid(),
+                user.getUsername(),
+                user.getEmail(),
+                user.getFirstname(),
+                user.getLastname(),
+                userRoleDTO,
+                cvs);
     }
 }

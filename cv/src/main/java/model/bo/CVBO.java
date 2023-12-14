@@ -7,8 +7,10 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 
 import model.bean.BasicInfo;
 import model.bean.CV;
+import model.bean.Education;
 import model.bean.Project;
 import model.bean.ProjectDescription;
+import model.bean.Skill;
 import model.bean.User;
 import model.dao.BasicInfoDAO;
 import model.dao.CVDAO;
@@ -45,12 +47,20 @@ public class CVBO {
             if (cvdto.getBasicInfo() == null)
                 return null;
 
+            // Insert CV
             CV cv = cvdao.insert(new CV(user.getUserid())).get();
+
+            /*
+             * Insert BasicInfo
+             */
             BasicInfo basicInfo = cvdto.getBasicInfo();
             basicInfo.setBasicInfoId(UUID.randomUUID());
             basicInfo.setCvId(cv.getCvId());
             basicInfoDAO.insert(basicInfo).get();
 
+            /*
+             * Insert Education
+             */
             if (cvdto.getEducations() != null && !cvdto.getEducations().isEmpty()) {
                 cvdto.getEducations().forEach((education) -> {
                     education.setEducationId(UUID.randomUUID());
@@ -58,6 +68,10 @@ public class CVBO {
                     educationDAO.insert(education);
                 });
             }
+
+            /*
+             * Insert Skill
+             */
             if (cvdto.getSkills() != null && !cvdto.getSkills().isEmpty()) {
                 cvdto.getSkills().forEach((skill) -> {
                     skill.setSkillId(UUID.randomUUID());
@@ -65,6 +79,10 @@ public class CVBO {
                     skillDAO.insert(skill);
                 });
             }
+
+            /*
+             * Insert Project
+             */
             if (cvdto.getProjects() != null && !cvdto.getProjects().isEmpty()) {
                 cvdto.getProjects().forEach((project) -> {
                     insertProject(cv.getCvId(), project);
@@ -91,26 +109,59 @@ public class CVBO {
             if (cvdto.getBasicInfo() == null)
                 return null;
 
-            BasicInfo basicInfo = basicInfoDAO.getById(cvdto.getCvId()).orElseThrow();
+            /*
+             * Update BasicInfo
+             */
+            BasicInfo basicInfo = cvdto.getBasicInfo();
+            BasicInfo entity = basicInfoDAO.getById(basicInfo.getBasicInfoId()).orElseThrow();
+            entity.setName(basicInfo.getName());
+            entity.setGithub(basicInfo.getGithub());
+            entity.setEmail(basicInfo.getEmail());
+            entity.setAddress(basicInfo.getAddress());
+            entity.setPhone(basicInfo.getPhone());
+            entity.setAboutMe(basicInfo.getAboutMe());
+            basicInfo = basicInfoDAO.update(entity).get();
 
+            /*
+             * Update Education
+             */
             if (cvdto.getEducations() != null && !cvdto.getEducations().isEmpty()) {
                 cvdto.getEducations().forEach((education) -> {
-                    educationDAO.update(education);
+                    try {
+                        updateEducation(education);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 });
             }
+
+            /*
+             * Update Skill
+             */
             if (cvdto.getSkills() != null && !cvdto.getSkills().isEmpty()) {
                 cvdto.getSkills().forEach((skill) -> {
-                    skillDAO.update(skill);
+                    try {
+                        updateSkill(skill);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 });
             }
+
+            /*
+             * Update Project
+             */
             if (cvdto.getProjects() != null && !cvdto.getProjects().isEmpty()) {
                 cvdto.getProjects().forEach((project) -> {
-                    insertProject(cv.getCvId(), project);
+                    try {
+                        updateProject(project);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 });
             }
 
             return CVDTO.fromEntity(cv);
-
         } catch (JWTVerificationException e) {
             System.out.println("===> JWTVerificationException: " + e.toString());
         } catch (Exception e) {
@@ -119,6 +170,85 @@ public class CVBO {
         return null;
     }
 
+    public Boolean deleteCV(String token, String cvId) {
+        try {
+            String userId = JwtUtil.extractSubject(token);
+            CV cv = cvdao.getById(UUID.fromString(cvId)).orElseThrow();
+            if (cv.getUserId().compareTo(UUID.fromString(userId)) != 0) {
+                throw new Exception("You don't have perssion to access!");
+            }
+
+            cvdao.deleteById(cv.getCvId());
+            return true;
+        } catch (JWTVerificationException e) {
+            System.out.println("===> JWTVerificationException: " + e.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    public Boolean deleteSkill(String token, String cvId, String skillId) {
+        try {
+            String userId = JwtUtil.extractSubject(token);
+            CV cv = cvdao.getById(UUID.fromString(cvId)).orElseThrow();
+            if (cv.getUserId().compareTo(UUID.fromString(userId)) != 0) {
+                throw new Exception("You don't have perssion to access!");
+            }
+
+            skillDAO.deleteById(UUID.fromString(skillId));
+            return true;
+        } catch (JWTVerificationException e) {
+            System.out.println("===> JWTVerificationException: " + e.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    public Boolean deleteEducation(String token, String cvId, String educationId) {
+        try {
+            String userId = JwtUtil.extractSubject(token);
+            CV cv = cvdao.getById(UUID.fromString(cvId)).orElseThrow();
+            if (cv.getUserId().compareTo(UUID.fromString(userId)) != 0) {
+                throw new Exception("You don't have perssion to access!");
+            }
+
+            educationDAO.deleteById(UUID.fromString(educationId));
+            return true;
+        } catch (JWTVerificationException e) {
+            System.out.println("===> JWTVerificationException: " + e.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    public Boolean deleteProject(String token, String cvId, String projectId) {
+        try {
+            String userId = JwtUtil.extractSubject(token);
+            CV cv = cvdao.getById(UUID.fromString(cvId)).orElseThrow();
+            if (cv.getUserId().compareTo(UUID.fromString(userId)) != 0) {
+                throw new Exception("You don't have perssion to access!");
+            }
+
+            projectDAO.deleteById(UUID.fromString(projectId));
+            return true;
+        } catch (JWTVerificationException e) {
+            System.out.println("===> JWTVerificationException: " + e.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    /*
+     * Internal Function
+     */
     private ProjectDTO insertProject(UUID cvId, ProjectDTO projectDTO) {
         Project project = projectDAO
                 .insert(new Project(projectDTO.getProjectName(), projectDTO.getTime(), projectDTO.getNumOfMember(),
@@ -148,11 +278,28 @@ public class CVBO {
                 try {
                     ProjectDescription projectDescription = projectDescriptionDAO
                             .getById(description.getDescriptionId()).get();
+                    projectDescription.setDescription(description.getDescription());
+                    projectDescriptionDAO.update(description);
                 } catch (Exception e) {
-
+                    e.printStackTrace();
                 }
             });
         }
         return ProjectDTO.fromEntity(project);
+    }
+
+    private Education updateEducation(Education education) throws NoSuchElementException, Exception {
+        Education entity = educationDAO.getById(education.getEducationId()).orElseThrow();
+        entity.setEducationName(education.getEducationName());
+        entity.setTime(education.getTime());
+        education = educationDAO.update(entity).get();
+        return education;
+    }
+
+    private Skill updateSkill(Skill skill) throws NoSuchElementException, Exception {
+        Skill entity = skillDAO.getById(skill.getSkillId()).orElseThrow();
+        entity.setSkillName(skill.getSkillName());
+        skill = skillDAO.update(entity).get();
+        return skill;
     }
 }

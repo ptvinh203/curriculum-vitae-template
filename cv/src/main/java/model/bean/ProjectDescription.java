@@ -23,12 +23,12 @@ import model.util.database.Entity;
 public class ProjectDescription extends Entity<UUID> {
     private UUID descriptionId;
     private String description;
-    private UUID cvId;
+    private UUID projectId;
 
-    public ProjectDescription(String description, UUID cvId) {
+    public ProjectDescription(String description, UUID projectId) {
         this.descriptionId = UUID.randomUUID();
         this.description = description;
-        this.cvId = cvId;
+        this.projectId = projectId;
     }
 
     @Override
@@ -37,7 +37,7 @@ public class ProjectDescription extends Entity<UUID> {
         if (includePrimary)
             result.put("description_id", wrapString(descriptionId.toString()));
         result.put("description", wrapString(description));
-        result.put("cv_id", wrapString(cvId.toString()));
+        result.put("project_id", wrapString(projectId.toString()));
         return result;
     }
 
@@ -46,7 +46,7 @@ public class ProjectDescription extends Entity<UUID> {
         try {
             this.descriptionId = UUID.fromString(resultSet.getString("description_id"));
             this.description = resultSet.getString("description");
-            this.cvId = UUID.fromString(resultSet.getString("cv_id"));
+            this.projectId = UUID.fromString(resultSet.getString("project_id"));
             return this;
         } catch (SQLException e) {
             e.printStackTrace();

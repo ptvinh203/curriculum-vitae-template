@@ -5,9 +5,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import com.auth0.jwt.exceptions.JWTVerificationException;
+
 import model.bean.User;
 import model.dao.UserDAO;
 import model.dto.UserDTO;
+import model.util.security.JwtUtil;
 
 public class UserBO {
     static private UserBO instance;
@@ -51,7 +54,6 @@ public class UserBO {
                 userDTO.getRole().getRoleId());
 
         userDAO.insert(user);
-
         return UserDTO.fromEntity(user);
     }
 
@@ -65,15 +67,19 @@ public class UserBO {
                 userDTO.getRole().getRoleId());
 
         userDAO.update(user);
-
         return UserDTO.fromEntity(user);
     }
 
-    public void delete(UserDTO user) {
-        userDAO.deleteById(user.getUserid());
-    }
-
-    public void deleteById(UUID id) {
-        userDAO.deleteById(id);
+    public UserDTO myProfile(String token) {
+        try {
+            String userId = JwtUtil.extractSubject(token);
+            User user = userDAO.getById(UUID.fromString(userId)).orElseThrow();
+            return UserDTO.fromEntity(user);
+        } catch (JWTVerificationException e) {
+            System.out.println("===> JWTVerificationException: " + e.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

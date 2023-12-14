@@ -46,22 +46,22 @@ public class User extends Entity<UUID> {
     public Map<String, String> toValueMap(boolean includePrimary) {
         Map<String, String> result = new HashMap<>();
         if(includePrimary)
-            result.put("UserID", wrapString(userid.toString()));
+            result.put("user_id", wrapString(userid.toString()));
         result.put("username", wrapString(username));
         result.put("firstname", wrapString(firstname));
         result.put("lastname", wrapString(lastname));
-        result.put("roleid", wrapString(roleid.toString()));
+        result.put("role_id", wrapString(roleid.toString()));
         return result;
     }
 
     @Override
     public Entity<UUID> fromResultSet(ResultSet resultSet) {
         try {
-            this.userid = UUID.fromString(resultSet.getString("UserID"));
+            this.userid = UUID.fromString(resultSet.getString("user_id"));
             this.username = resultSet.getString("username");
             this.firstname = resultSet.getString("firstname");
             this.lastname = resultSet.getString("lastname");
-            this.roleid = UUID.fromString(resultSet.getString("roleid"));
+            this.roleid = UUID.fromString(resultSet.getString("role_id"));
             return this;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -71,7 +71,7 @@ public class User extends Entity<UUID> {
 
     @Override
     public Entry<String, UUID> getPrimaryValue() {
-        return Map.entry("UserID", userid);
+        return Map.entry("user_id", userid);
     }
     
 }

@@ -18,5 +18,4 @@ public class SkillDAO extends BaseDAO<Skill, UUID> {
             instance = new SkillDAO();
         return instance;
     }
-
 }

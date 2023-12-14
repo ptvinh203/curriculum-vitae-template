@@ -1,5 +1,7 @@
 package model.util.database;
+import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class Query<T extends Entity<?>> {
     public QueryType type;
@@ -88,6 +90,10 @@ public class Query<T extends Entity<?>> {
     }
 
     public QueryResult<T> query() throws Exception {
-        return new QueryResult<>(dbUtil.execute(this), baseClass);
+        QueryResult<T> result = new QueryResult<>(dbUtil.getConnection(), baseClass);
+        Optional<ResultSet> resultSet = dbUtil.execute(result.getConnection(), this);
+        if(resultSet.isPresent())
+            result.setResultSet(resultSet.get());
+        return result;
     }
 }

@@ -8,7 +8,7 @@ import java.util.Optional;
 import java.sql.Statement;
 
 public class DBUtil {
-    private static String DB_URL = "jdbc:mysql://localhost:3306/dulieu222";
+    private static String DB_URL = "jdbc:mysql://localhost:3306/cnw_cv_project";
     private static String USER_NAME = "root";
     private static String PASSWORD = "";
 
@@ -33,8 +33,8 @@ public class DBUtil {
         return connection;
     }
 
-    public Optional<ResultSet> execute(String query) {
-        try(Connection connection = getConnection()) {
+    public Optional<ResultSet> execute(Connection connection, String query) {
+        try {
             Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             System.out.println("Executing: " + query);
             boolean resultType = statement.execute(query);
@@ -47,7 +47,24 @@ public class DBUtil {
         return Optional.empty();
     }
 
-    public Optional<ResultSet> execute(Query<?> query) throws Exception {
-        return execute(query.makeQueryString());
+    public Optional<ResultSet> execute(Connection connection, Query<?> query) throws Exception {
+        return execute(connection, query.makeQueryString());
+    }
+
+    public void closeConnection(Connection connection) {
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void closeResultSet(ResultSet resultSet) {
+        try {
+            resultSet.close();
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 }

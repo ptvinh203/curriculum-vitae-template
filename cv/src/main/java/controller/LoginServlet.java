@@ -30,6 +30,5 @@ public class LoginServlet extends HttpServlet {
         String jwttoken = authenticationBO.login(email, password);
         Cookie cookie = new Cookie("token", jwttoken);
         resp.addCookie(cookie);
-        
     }
 }

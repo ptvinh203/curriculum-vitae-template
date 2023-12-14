@@ -54,14 +54,15 @@ public class ApiUserServlet extends HttpServlet {
 
             List<String> filters = new ArrayList<>();
             if(username != null)
-                filters.add(String.format("username LIKE '%%s%'", username));
+                filters.add("username LIKE '%" + username + "%'");
             if(firstname != null)
-                filters.add(String.format("firstname LIKE '%%s%'", firstname));
+                filters.add("firstname LIKE '%" + firstname + "%'");
             if(lastname != null)
-                filters.add(String.format("lastname LIKE '%%s%'", lastname));
+                filters.add("lastname LIKE '%" + lastname + "%'");
             
             List<UserDTO> users = userBO.findBy(filters);
             ObjectMapper objectMapper = new ObjectMapper();
+
             resp.getWriter().write(objectMapper.writeValueAsString(users));
         }
     }

@@ -10,6 +10,7 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import model.bean.User;
 import model.dao.UserDAO;
 import model.dto.UserDTO;
+import model.util.database.Query;
 import model.util.database.QueryType;
 import model.util.security.JwtUtil;
 
@@ -33,6 +34,23 @@ public class UserBO {
             e.printStackTrace();
         }
         return userDTOs;
+    }
+
+    public List<UserDTO> findBy(List<String> filters) {
+        try {
+            Query<User> query = userDAO.makeQuery(QueryType.SELECT);
+            for(String filter : filters)
+                query = query.where(filter);
+            return query
+                .query()
+                .toEntityList()
+                .stream()
+                .map(e -> UserDTO.fromEntity(e))
+                .toList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ArrayList<>();
     }
 
     public UserDTO getById(UUID id) {

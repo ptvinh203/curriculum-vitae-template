@@ -57,6 +57,8 @@ public class CV extends Entity<UUID> {
 
     @Override
     public Entry<String, UUID> getPrimaryValue() {
+        if(cvId == null)
+            return Map.entry("cv_id", UUID.randomUUID());
         return Map.entry("cv_id", cvId);
     }
 }

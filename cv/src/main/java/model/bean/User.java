@@ -73,6 +73,8 @@ public class User extends Entity<UUID> {
 
     @Override
     public Entry<String, UUID> getPrimaryValue() {
+        if(userid == null)
+            return Map.entry("user_id", UUID.randomUUID());
         return Map.entry("user_id", userid);
     }
     

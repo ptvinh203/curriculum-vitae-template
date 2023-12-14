@@ -56,6 +56,8 @@ public class ProjectDescription extends Entity<UUID> {
 
     @Override
     public Entry<String, UUID> getPrimaryValue() {
+        if(descriptionId == null)
+            return Map.entry("desccription_id", UUID.randomUUID());
         return Map.entry("description_id", descriptionId);
     }
 

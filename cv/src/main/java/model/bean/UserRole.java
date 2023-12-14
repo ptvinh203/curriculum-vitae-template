@@ -60,6 +60,8 @@ public class UserRole extends Entity<UUID> {
 
     @Override
     public Entry<String, UUID> getPrimaryValue() {
+        if(roleId == null)
+            return Map.entry("role_id", UUID.randomUUID());
         return Map.entry("role_id", roleId);
     }
 }

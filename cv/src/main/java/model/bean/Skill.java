@@ -56,6 +56,8 @@ public class Skill extends Entity<UUID> {
 
     @Override
     public Entry<String, UUID> getPrimaryValue() {
+        if(skillId == null)
+            return Map.entry("skill_id", UUID.randomUUID());
         return Map.entry("skill_id", skillId);
     }
 

@@ -60,6 +60,8 @@ public class Education extends Entity<UUID> {
 
     @Override
     public Entry<String, UUID> getPrimaryValue() {
+        if(educationId == null)
+            return Map.entry("education_id", UUID.randomUUID());
         return Map.entry("education_id", educationId);
     }
 

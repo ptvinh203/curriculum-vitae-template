@@ -80,6 +80,8 @@ public class BasicInfo extends Entity<UUID> {
 
     @Override
     public Entry<String, UUID> getPrimaryValue() {
+        if(basicInfoId == null)
+            return Map.entry("basic_info_id", UUID.randomUUID());
         return Map.entry("basic_info_id", basicInfoId);
     }
 }

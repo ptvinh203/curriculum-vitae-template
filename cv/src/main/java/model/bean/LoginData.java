@@ -60,6 +60,8 @@ public class LoginData extends Entity<UUID> {
 
     @Override
     public Entry<String, UUID> getPrimaryValue() {
+        if(loginDataId == null)
+            return Map.entry("login_data_id", UUID.randomUUID());
         return Map.entry("login_data_id", loginDataId);
     }
 }

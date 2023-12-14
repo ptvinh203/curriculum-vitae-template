@@ -11,11 +11,13 @@ import model.dto.UserDTO;
 
 public class UserBO {
     static private UserBO instance;
+
     static public UserBO getInstance() {
-        if(instance == null)
+        if (instance == null)
             instance = new UserBO();
         return instance;
     }
+
     private UserDAO userDAO = UserDAO.getInstance();
 
     public List<UserDTO> getAll() {
@@ -32,7 +34,7 @@ public class UserBO {
     public UserDTO getById(UUID id) {
         try {
             Optional<User> user = userDAO.getById(id);
-            if(user.isPresent())
+            if (user.isPresent())
                 return UserDTO.fromEntity(user.get());
         } catch (Exception e) {
             e.printStackTrace();
@@ -42,12 +44,11 @@ public class UserBO {
 
     public UserDTO insert(UserDTO userDTO) {
         User user = new User(
-            userDTO.getUsername(),
-            userDTO.getEmail(), 
-            userDTO.getFirstname(), 
-            userDTO.getLastname(), 
-            userDTO.getRole().getRoleId()
-        );
+                userDTO.getUsername(),
+                userDTO.getEmail(),
+                userDTO.getFirstname(),
+                userDTO.getLastname(),
+                userDTO.getRole().getRoleId());
 
         userDAO.insert(user);
 
@@ -56,18 +57,14 @@ public class UserBO {
 
     public UserDTO update(UserDTO userDTO) {
         User user = new User(
-            userDTO.getUserid(),
-            userDTO.getUsername(),
-            userDTO.getEmail(), 
-            userDTO.getFirstname(), 
-            userDTO.getLastname(), 
-            userDTO.getRole().getRoleId()
-        );
+                userDTO.getUserid(),
+                userDTO.getUsername(),
+                userDTO.getEmail(),
+                userDTO.getFirstname(),
+                userDTO.getLastname(),
+                userDTO.getRole().getRoleId());
 
         userDAO.update(user);
-
-        // TODO: UPDATE USER'S CVS
-        // 
 
         return UserDTO.fromEntity(user);
     }

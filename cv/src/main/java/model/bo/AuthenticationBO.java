@@ -1,42 +1,53 @@
 package model.bo;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTVerifier;
-import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.auth0.jwt.interfaces.DecodedJWT;
 
 import model.bean.LoginData;
 import model.dao.LoginDataDAO;
+import model.dto.UserDTO;
+import model.util.security.JwtUtil;
+import model.util.security.PasswordUtil;
 
 public class AuthenticationBO {
     static private AuthenticationBO instance;
+
     static public AuthenticationBO getInstance() {
-        if(instance == null)
+        if (instance == null)
             instance = new AuthenticationBO();
         return instance;
     }
 
     private LoginDataDAO loginDataDAO = LoginDataDAO.getInstance();
+    private UserBO userBO = UserBO.getInstance();
 
     public String login(String email, String password) {
-        LoginData loginData = loginDataDAO.login(email, password);
-        if(loginData == null)
-            return null;
-
-        String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiZmE3NmU0Zi1kMjMzLTQwZjAtYTBjMi0xMjRmOWYwYmIwM2YifQ.K-WgT90CA8R-tEmXpDeKFyXAT7_jAfe_x6ES3ZI8k8Y";
-
-        JWTVerifier verifier = JWT.require(Algorithm.HMAC256("DMVppp")).build();
         try {
-            DecodedJWT decodedJWT = verifier.verify(token);
-            // System.out.println(decodedJWT.getSubject());
-            return decodedJWT.getSubject();
-        } catch(JWTVerificationException e) {
-            e.printStackTrace();;
+            LoginData loginData = loginDataDAO.login(email, password);
+            if (loginData == null)
+                return null;
+
+            return JwtUtil.generateToken(loginData.getUserId().toString());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return "a";
-    //     return JWT.create()
-    //         .withSubject(loginData.getUserId().toString())
-    //         .sign(Algorithm.HMAC256("DMV"));
+        return null;
     }
+
+    public String register(UserDTO userDTO, String password) {
+        try {
+            UserDTO userResponse = userBO.insert(userDTO);
+            if (userResponse == null)
+                return null;
+
+            loginDataDAO.insert(new LoginData(userResponse.getUserid(), PasswordUtil.getInstance().getHash(password)));
+
+            return JwtUtil.generateToken(userResponse.getUserid().toString());
+        } catch (JWTVerificationException e) {
+            System.out.println("===> JWTVerificationException: " + e.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }

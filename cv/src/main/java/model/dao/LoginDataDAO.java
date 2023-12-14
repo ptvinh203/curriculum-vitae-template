@@ -12,11 +12,12 @@ import model.util.security.PasswordUtil;
 public class LoginDataDAO extends BaseDAO<LoginData, UUID> {
     public LoginDataDAO() {
         super("LoginData", LoginData.class);
-    } 
+    }
 
     static private LoginDataDAO instance;
+
     static public LoginDataDAO getInstance() {
-        if(instance == null)
+        if (instance == null)
             instance = new LoginDataDAO();
         return instance;
     }
@@ -25,21 +26,20 @@ public class LoginDataDAO extends BaseDAO<LoginData, UUID> {
         PasswordUtil passwordUtil = PasswordUtil.getInstance();
         try {
             Optional<User> user = UserDAO.getInstance().makeQuery(QueryType.SELECT)
-                .where(String.format("email='%s'", email))
-                .query()
-                .first();
-            if(user.isEmpty())
+                    .where(String.format("email='%s'", email))
+                    .query()
+                    .first();
+            if (user.isEmpty())
                 return null;
             Optional<LoginData> loginData = this.makeQuery(QueryType.SELECT)
-                .where(String.format("user_id='%s'", user.get().getUserid().toString()))
-                .query()
-                .first();
-            if(loginData.isEmpty())
+                    .where(String.format("user_id='%s'", user.get().getUserid().toString()))
+                    .query()
+                    .first();
+            if (loginData.isEmpty())
                 return null;
-            if(passwordUtil.verify(password, loginData.get().getPasswordHash()))
+            if (passwordUtil.verify(password, loginData.get().getPasswordHash()))
                 return loginData.get();
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return null;

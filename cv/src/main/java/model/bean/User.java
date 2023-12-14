@@ -48,6 +48,7 @@ public class User extends Entity<UUID> {
         if(includePrimary)
             result.put("user_id", wrapString(userid.toString()));
         result.put("username", wrapString(username));
+        result.put("email", wrapString(email));
         result.put("firstname", wrapString(firstname));
         result.put("lastname", wrapString(lastname));
         result.put("role_id", wrapString(roleid.toString()));
@@ -59,6 +60,7 @@ public class User extends Entity<UUID> {
         try {
             this.userid = UUID.fromString(resultSet.getString("user_id"));
             this.username = resultSet.getString("username");
+            this.email = resultSet.getString("email");
             this.firstname = resultSet.getString("firstname");
             this.lastname = resultSet.getString("lastname");
             this.roleid = UUID.fromString(resultSet.getString("role_id"));

@@ -10,6 +10,7 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import model.bean.User;
 import model.dao.UserDAO;
 import model.dto.UserDTO;
+import model.util.database.QueryType;
 import model.util.security.JwtUtil;
 
 public class UserBO {
@@ -68,6 +69,21 @@ public class UserBO {
 
         userDAO.update(user);
         return UserDTO.fromEntity(user);
+    }
+
+    public UserDTO getByEmail(String email) {
+        try {
+            User user = userDAO.makeQuery(QueryType.SELECT)
+                .where(String.format("email='%s'", email))
+                .query()
+                .first()
+                .orElse(null);
+            if(user != null)
+                return UserDTO.fromEntity(user);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public UserDTO myProfile(String token) {

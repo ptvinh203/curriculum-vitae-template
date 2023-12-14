@@ -10,6 +10,12 @@ import model.dao.UserDAO;
 import model.dto.UserDTO;
 
 public class UserBO {
+    static private UserBO instance;
+    static public UserBO getInstance() {
+        if(instance == null)
+            instance = new UserBO();
+        return instance;
+    }
     private UserDAO userDAO = UserDAO.getInstance();
 
     public List<UserDTO> getAll() {

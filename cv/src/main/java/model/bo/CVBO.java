@@ -40,6 +40,17 @@ public class CVBO {
     private ProjectDescriptionDAO projectDescriptionDAO = ProjectDescriptionDAO.getInstance();
     private EducationDAO educationDAO = EducationDAO.getInstance();
 
+    public CVDTO getById(UUID cvid) {
+        try {
+            CV cv = cvdao.getById(cvid).orElse(null);
+            if(cv != null)
+                return CVDTO.fromEntity(cv);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public CVDTO createCV(String token, CVDTO cvdto) {
         try {
             String userId = JwtUtil.extractSubject(token);

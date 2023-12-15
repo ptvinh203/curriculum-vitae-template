@@ -137,11 +137,11 @@
             <div class="flex gap-10 italic text-lg text-slate-800">
                 It seems that you haven't created any CV yet.
             </div>
-            <a href="" class="flex gap-10 font-semibold text-[#1B6B93] text-lg">
+            <a href="cv/create" class="flex gap-10 font-semibold text-[#1B6B93] text-lg">
                 Create one
             </a>
             <% } else { %>
-              <a href="" class="flex gap-10 font-semibold text-[#1B6B93] text-lg">
+              <a href="cv/create" class="flex gap-10 font-semibold text-[#1B6B93] text-lg">
                 Create one
               </a>
               <div id="cvs-container" class="flex flex-col gap-5">

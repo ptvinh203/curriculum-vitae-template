@@ -28,7 +28,7 @@ import model.util.database.QueryType;
 @Builder
 public class CVDTO {
         private UUID cvId;
-        private String cvName = "";
+        private String cvName = "My CV";
         private UserDTO user;
         private BasicInfo basicInfo = null;
         private List<Skill> skills = new ArrayList<>();

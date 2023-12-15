@@ -24,15 +24,15 @@ public class UserSessionUtil {
             return false;
         }
         String uuidStr = JwtUtil.extractSubject(authCookie.getValue());
-        UserDTO user = (UserDTO) session.getAttribute("current_user");
-        if(user == null || !user.getUserid().toString().equals(uuidStr)) {
-            try {
-                user = userBO.getById(UUID.fromString(uuidStr));
-                session.setAttribute("current_user", user);
-            } catch(Exception e) {
-                e.printStackTrace();
+    
+        try {
+            UserDTO user = userBO.getById(UUID.fromString(uuidStr));
+            if(user == null)
                 return false;
-            }
+            session.setAttribute("current_user", user);
+        } catch(Exception e) {
+            e.printStackTrace();
+            return false;
         }
         return true;
     }

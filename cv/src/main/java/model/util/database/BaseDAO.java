@@ -46,6 +46,7 @@ public class BaseDAO<T extends Entity<U>, U> {
             new Query<>(tableName, QueryType.INSERT, DBUtil.getInstance(), baseClass)
                 .value(entity)
                 .query();
+            return Optional.of(entity);
         } catch (Exception e) {
             e.printStackTrace();
         }

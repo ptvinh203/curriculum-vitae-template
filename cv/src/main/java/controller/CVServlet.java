@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.util.UUID;
 
 import controller.util.CookieUtil;
 import controller.util.UserSessionUtil;
@@ -20,24 +21,27 @@ public class CVServlet extends HttpServlet {
     private CVBO cvbo = CVBO.getInstance();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.getOutputStream().println(req.getParameter("cvid"));
+        String uuidStr = req.getParameter("cvid");
+        String mode = req.getParameter("mode");
+        if(uuidStr == null) {
+            resp.sendRedirect("home");
+            return;
+        }
+        UUID cvid = UUID.fromString(req.getParameter("cvid"));
+        CVDTO cv = cvbo.getById(cvid);
+        if(cv == null) {
+            resp.sendRedirect("home");
+            return;
+        }
+        req.setAttribute("cv", cv);
+        if(mode == null || mode != "edit") {
+            req.getRequestDispatcher("cv-view.jsp").forward(req, resp);
+            return;
+        }
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if(!UserSessionUtil.ensureUser(req)) {
-            resp.sendRedirect(".");
-            return;
-        }
 
-        // Creating empty cv
-        Cookie authCookie = CookieUtil.getCookie(req, "token");
-        
-        UserDTO user = (UserDTO) req.getSession().getAttribute("current_user");
-        CVDTO cv = new CVDTO();
-        cv.setUser(user);
-        cv = cvbo.createCV(authCookie.getValue(), cv);
-
-        resp.sendRedirect("?cvid="+cv.getCvId().toString());
     }
 }

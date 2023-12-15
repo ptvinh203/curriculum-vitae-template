@@ -44,8 +44,17 @@ public class CVBO {
         try {
             String userId = JwtUtil.extractSubject(token);
             User user = userDAO.getById(UUID.fromString(userId)).orElseThrow();
+
             if (cvdto.getBasicInfo() == null)
-                return null;
+                cvdto.setBasicInfo(new BasicInfo(
+                    user.getFirstname() + " " + user.getLastname(), 
+                    "", 
+                    user.getEmail(),
+                     "", 
+                    "", 
+                    "", 
+                    null)
+                );
 
             // Insert CV
             CV cv = cvdao.insert(new CV(cvdto.getCvName(), user.getUserid())).get();

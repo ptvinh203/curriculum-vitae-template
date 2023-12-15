@@ -141,6 +141,9 @@
                 Create one
             </a>
             <% } else { %>
+              <a href="" class="flex gap-10 font-semibold text-[#1B6B93] text-lg">
+                Create one
+              </a>
               <div id="cvs-container" class="flex flex-col gap-5">
                 <% for(CVDTO cv : user.getCvs()) { 
                   String name = cv.getCvName();

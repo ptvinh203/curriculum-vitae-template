@@ -7,6 +7,7 @@ import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import model.bean.BasicInfo;
 import model.bean.CV;
@@ -23,15 +24,16 @@ import model.util.database.QueryType;
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class CVDTO {
         private UUID cvId;
-        private String cvName;
+        private String cvName = "";
         private UserDTO user;
-        private BasicInfo basicInfo;
-        private List<Skill> skills;
-        private List<Education> educations;
-        private List<ProjectDTO> projects;
+        private BasicInfo basicInfo = null;
+        private List<Skill> skills = new ArrayList<>();
+        private List<Education> educations = new ArrayList<>();
+        private List<ProjectDTO> projects = new ArrayList<>();
 
         static public CVDTO fromEntity(CV cv) {
                 UserDAO userDAO = UserDAO.getInstance();

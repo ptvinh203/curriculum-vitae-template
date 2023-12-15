@@ -3,6 +3,7 @@ package model.bean;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -37,7 +38,7 @@ public class LoginData extends Entity<UUID> {
 
     @Override
     public Map<String, String> toValueMap(boolean includePrimary) {
-        Map<String, String> result = new HashMap<>();
+        Map<String, String> result = new LinkedHashMap<>();
         if(includePrimary)
             result.put("login_data_id", wrapString(loginDataId.toString()));
         result.put("user_id", wrapString(userId.toString()));

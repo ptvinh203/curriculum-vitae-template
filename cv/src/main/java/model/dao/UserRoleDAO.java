@@ -15,4 +15,8 @@ public class UserRoleDAO extends BaseDAO<UserRole, UUID> {
             instance = new UserRoleDAO();
         return instance;
     }
+
+    public UUID defaultRoleId() {
+        return UUID.fromString("bd127c42-9afa-11ee-b9d1-0242ac120002");
+    }
 }

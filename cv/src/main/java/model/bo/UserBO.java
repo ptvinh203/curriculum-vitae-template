@@ -9,6 +9,7 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 
 import model.bean.User;
 import model.dao.UserDAO;
+import model.dao.UserRoleDAO;
 import model.dto.UserDTO;
 import model.util.database.Query;
 import model.util.database.QueryType;
@@ -24,6 +25,7 @@ public class UserBO {
     }
 
     private UserDAO userDAO = UserDAO.getInstance();
+    private UserRoleDAO userRoleDAO = UserRoleDAO.getInstance();
 
     public List<UserDTO> getAll() {
         List<UserDTO> userDTOs = new ArrayList<>();
@@ -70,7 +72,7 @@ public class UserBO {
                 userDTO.getEmail(),
                 userDTO.getFirstname(),
                 userDTO.getLastname(),
-                userDTO.getRole().getRoleId());
+                userRoleDAO.defaultRoleId());
 
         userDAO.insert(user);
         return UserDTO.fromEntity(user);

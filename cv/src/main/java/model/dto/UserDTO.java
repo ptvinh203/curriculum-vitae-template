@@ -50,7 +50,7 @@ public class UserDTO {
                     .query()
                     .toEntityList();
             cvEntities.forEach((cv) -> {
-                userDTO.cvs.add(CVDTO.fromEntity(cv));
+                userDTO.cvs.add(CVDTO.fromEntity(cv, null));
             });
         } catch (Exception e) {
             e.printStackTrace();

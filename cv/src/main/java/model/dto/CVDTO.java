@@ -26,6 +26,7 @@ import model.util.database.QueryType;
 @Builder
 public class CVDTO {
         private UUID cvId;
+        private String cvName;
         private UserDTO user;
         private BasicInfo basicInfo;
         private List<Skill> skills;
@@ -34,37 +35,13 @@ public class CVDTO {
 
         static public CVDTO fromEntity(CV cv) {
                 UserDAO userDAO = UserDAO.getInstance();
-                BasicInfoDAO basicInfoDAO = BasicInfoDAO.getInstance();
-                SkillDAO skillDAO = SkillDAO.getInstance();
-                EducationDAO educationDAO = EducationDAO.getInstance();
-                ProjectDAO projectDAO = ProjectDAO.getInstance();
-
                 UserDTO userDTO = null;
-                BasicInfo basicInfo = new BasicInfo();
-                List<Skill> skills = new ArrayList<>();
-                List<Education> educations = new ArrayList<>();
-                List<ProjectDTO> projects = new ArrayList<>();
                 try {
                         userDTO = UserDTO.fromEntity(userDAO.getById(cv.getUserId()).get());
-                        basicInfo = basicInfoDAO.makeQuery(QueryType.SELECT)
-                                        .where(String.format("cv_id='%s'", cv.getCvId().toString())).query().first()
-                                        .orElse(null);
-
-                        skills = skillDAO.makeQuery(QueryType.SELECT)
-                                        .where(String.format("cv_id='%s'", cv.getCvId().toString())).query()
-                                        .toEntityList();
-                        educations = educationDAO.makeQuery(QueryType.SELECT)
-                                        .where(String.format("cv_id='%s'", cv.getCvId().toString())).query()
-                                        .toEntityList();
-
-                        List<Project> projectEntities = projectDAO.makeQuery(QueryType.SELECT)
-                                        .where(String.format("cv_id='%s'", cv.getCvId().toString())).query()
-                                        .toEntityList();
-                        projectEntities.forEach((projEntity) -> projects.add(ProjectDTO.fromEntity(projEntity)));
                 } catch (Exception e) {
                         e.printStackTrace();
                 }
-                return fromEntity(cv, userDTO, basicInfo, skills, educations, projects);
+                return fromEntity(cv, userDTO);
         }
 
         static public CVDTO fromEntity(CV cv, UserDTO user, BasicInfo basicInfo, List<Skill> skills,
@@ -72,12 +49,46 @@ public class CVDTO {
                         List<ProjectDTO> projects) {
                 return CVDTO.builder()
                                 .cvId(cv.getCvId())
+                                .cvName(cv.getCvName())
                                 .user(user)
                                 .basicInfo(basicInfo)
                                 .skills(skills)
                                 .educations(educations)
                                 .projects(projects)
                                 .build();
+        }
+
+        static public CVDTO fromEntity(CV cv, UserDTO user) {
+            BasicInfoDAO basicInfoDAO = BasicInfoDAO.getInstance();
+            SkillDAO skillDAO = SkillDAO.getInstance();
+            EducationDAO educationDAO = EducationDAO.getInstance();
+            ProjectDAO projectDAO = ProjectDAO.getInstance();
+
+            BasicInfo basicInfo = new BasicInfo();
+            List<Skill> skills = new ArrayList<>();
+            List<Education> educations = new ArrayList<>();
+            List<ProjectDTO> projects = new ArrayList<>();
+
+            try {
+                basicInfo = basicInfoDAO.makeQuery(QueryType.SELECT)
+                                .where(String.format("cv_id='%s'", cv.getCvId().toString())).query().first()
+                                .orElse(null);
+
+                skills = skillDAO.makeQuery(QueryType.SELECT)
+                                .where(String.format("cv_id='%s'", cv.getCvId().toString())).query()
+                                .toEntityList();
+                educations = educationDAO.makeQuery(QueryType.SELECT)
+                                .where(String.format("cv_id='%s'", cv.getCvId().toString())).query()
+                                .toEntityList();
+
+                List<Project> projectEntities = projectDAO.makeQuery(QueryType.SELECT)
+                                .where(String.format("cv_id='%s'", cv.getCvId().toString())).query()
+                                .toEntityList();
+                projectEntities.forEach((projEntity) -> projects.add(ProjectDTO.fromEntity(projEntity)));
+            } catch(Exception e) {
+                    e.printStackTrace();
+            }
+            return fromEntity(cv, user, basicInfo, skills, educations, projects);
         }
 
 }

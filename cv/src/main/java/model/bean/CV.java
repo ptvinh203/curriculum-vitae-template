@@ -2,7 +2,6 @@ package model.bean;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -25,11 +24,13 @@ import model.util.database.Entity;
 public class CV extends Entity<UUID> {
 
     private UUID cvId;
+    private String cvName;
     private UUID userId;
 
-    public CV(UUID userId) {
+    public CV(String cvName, UUID userId) {
         this(
             UUID.randomUUID(),
+            cvName,
             userId
         );
     }
@@ -39,6 +40,7 @@ public class CV extends Entity<UUID> {
         Map<String, String> result = new LinkedHashMap<>();
         if(includePrimary)
             result.put("cv_id", wrapString(cvId.toString()));
+        result.put("cv_name", wrapString(cvName));
         result.put("user_id", wrapString(userId.toString()));
 
         return result;
@@ -48,6 +50,7 @@ public class CV extends Entity<UUID> {
     public Entity<UUID> fromResultSet(ResultSet resultSet) {
         try {
             this.cvId = UUID.fromString(resultSet.getString("cv_id"));
+            this.cvName = resultSet.getString("cv_name");
             this.userId = UUID.fromString(resultSet.getString("user_id"));
             return this;
         } catch(SQLException e) {

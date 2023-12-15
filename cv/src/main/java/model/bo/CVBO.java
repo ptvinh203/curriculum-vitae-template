@@ -48,7 +48,7 @@ public class CVBO {
                 return null;
 
             // Insert CV
-            CV cv = cvdao.insert(new CV(user.getUserid())).get();
+            CV cv = cvdao.insert(new CV(cvdto.getCvName(), user.getUserid())).get();
 
             /*
              * Insert BasicInfo

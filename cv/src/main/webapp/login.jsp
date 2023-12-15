@@ -18,7 +18,8 @@
     </script>
 </head>
 <body class="h-screen bg-fixed bg-[url('static/welcome-background.jpg')]" onload="onLoad()">
-    <div id="navbar" class="h-20 sticky top-0 justify-between flex items-center px-16 shadow-lg bg-white bg-opacity-90">
+    <jsp:include page="navbar.jsp" />
+    <!-- <div id="navbar" class="h-20 sticky top-0 justify-between flex items-center px-16 shadow-lg bg-white bg-opacity-90">
         <div class="flex items-center gap-20">
             <a href="/cv" id="logo" class="font-bold text-4xl font-sans items-center justify-center hover:drop-shadow transition-all flex">
                 <div class="text-[#4FC0D0] ">
@@ -43,7 +44,7 @@
                 Item 3
             </div>
         </div>
-    </div>
+    </div> -->
     <div id="botton-navbar" class="min-h-[calc(100%-5rem)] h-fit flex flex-1 flex-col items-center justify-center">
         <form name="loginForm" action="" method="POST">
             <div id="content-container" class="h-fit bg-gray-200 rounded-3xl bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-30 border border-gray-100 p-10 h-fit w-fit flex flex-col items-center">

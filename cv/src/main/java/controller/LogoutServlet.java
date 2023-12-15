@@ -2,22 +2,25 @@ package controller;
 
 import java.io.IOException;
 
-import controller.util.UserSessionUtil;
+import controller.util.CookieUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet(urlPatterns = "/home")
-public class HomeServlet extends HttpServlet {
-
+@WebServlet(urlPatterns = "/logout")
+public class LogoutServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if(!UserSessionUtil.ensureUser(req)) {
-            resp.sendRedirect(".");
-            return;
+        Cookie authCookie = CookieUtil.getCookie(req, "token");
+        if(authCookie != null) {
+            authCookie.setMaxAge(0);
+            authCookie.setValue("");
+    
+            resp.addCookie(authCookie);
         }
-        req.getRequestDispatcher("home.jsp").forward(req, resp);
+        resp.sendRedirect(".");
     }
 }

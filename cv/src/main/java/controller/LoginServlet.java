@@ -4,6 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 
+import controller.util.CookieUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.Cookie;
@@ -20,24 +21,14 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Cookie[] cookies = req.getCookies();
-        if(cookies != null) {    
-            Cookie authCookie = getTokenCookie(cookies);
-            if(authCookie != null && JwtUtil.verifyToken(authCookie.getValue())) {
-                System.out.println(authCookie.getValue());
-                // redirect to ...
-                return;
-            }
-        }
-        req.getRequestDispatcher("login.html").forward(req, resp);
-    }
+        Cookie authCookie = CookieUtil.getCookie(req, "token");
 
-    private Cookie getTokenCookie(Cookie[] cookies) {
-        for(int i = 0; i < cookies.length; i++) {
-            if(cookies[i].getName() == "token")
-                return cookies[i];
+        if(authCookie != null && JwtUtil.verifyToken(authCookie.getValue())) {
+            System.out.println(authCookie.getValue());
+            resp.sendRedirect("home");
+            return;
         }
-        return null;
+        req.getRequestDispatcher("login.jsp").forward(req, resp);
     }
 
     @Override
@@ -48,9 +39,11 @@ public class LoginServlet extends HttpServlet {
         String jwttoken = authenticationBO.login(email, password);
         if(jwttoken == null) {
             resp.sendRedirect("login?message=Incorrect email or password");
+            return;
         }
         Cookie cookie = new Cookie("token", jwttoken);
         cookie.setMaxAge(60 * 60 * 24 * 30);
         resp.addCookie(cookie);
+        resp.sendRedirect("home");
     }
 }

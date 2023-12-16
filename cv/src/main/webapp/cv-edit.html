@@ -11,9 +11,15 @@
     <title>Profile</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script>
+        function open_modal(modal) {
+            document.getElementById(modal).style.display = "block"
+        }
+    </script>
 </head>
 <body class="h-screen">
     <jsp:include page="navbar.jsp" />
+    <jsp:include page="cv-edit-add-skill-modal.jsp" />
     <% CVDTO cv = (CVDTO) request.getAttribute("cv"); %>
     <div id="botton-navbar" class="h-[calc(100%-5rem)] flex flex-1 flex-row">
         <div id="sidebar" class="h-full w-72 flex-col flex gap-10 px-10 py-20">
@@ -42,7 +48,8 @@
                 </div>
             </a>
         </div>
-        <form name="form" id="content-container" class="w-[calc(100%-18rem)] h-full bg-gray-400 rounded-t-3xl bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100 mb-5 mr-5 p-10 overflow-y-scroll scroll-smooth">
+        <form name="form" action="" method="PUT" id="content-container" class="w-[calc(100%-18rem)] h-full bg-gray-400 rounded-t-3xl bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100 mb-5 mr-5 p-10 overflow-y-scroll scroll-smooth">
+            <input name="cvid" value="<%=cv.getCvId().toString()%>" type="text" hidden>
             <div id="content" class="flex-col flex gap-10">
                 <input name="cvName" id="cv-name" class="text-2xl font-bold text-[#164B60] p-2 border-2 border-slate-300 rounded-xl" value="<%=cv.getCvName()%>" placeholder="CV's name" />
                 <div id="basic-info container" class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all w-full h-fit p-10">
@@ -83,13 +90,13 @@
                                 <div id="title" class="text-xl font-semibold text-slate-800">
                                     About me
                                 </div>
-                                <textarea name="aboutMe" class="italic text-slate-600 p-2 border-2 border-slate-300 rounded-xl" cols="50" rows="10" placeholder="About your self"><%=cv.getBasicInfo().getAboutMe()%></textarea>
+                                <textarea name="aboutMe" class="italic text-slate-600 p-2 border-2 border-slate-300 rounded-xl w-full" rows="8" placeholder="About your self"><%=cv.getBasicInfo().getAboutMe()%></textarea>
                             </div>
                             <div id="refrence-links-container">
                                 <div id="github" class="flex gap-5 items-center">
                                     <div id="github-label" class="text-lg font-semibold text-[#6e5494]">
                                         <i class="fa-brands fa-github"></i>
-                                        Github:
+                                        <!-- Github: -->
                                     </div>
                                     <input name="githubLink" id="value" class="text-lg text-slate-600 font-medium p-1 rounded-lg border-2 border-slate-300" value="<%=cv.getBasicInfo().getGithub()%>" placeholder="Your github link" />
                                 </div>
@@ -109,6 +116,9 @@
                 <div id="skill container" class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all w-full h-fit p-10">
                     <div id="title" class="text-2xl font-bold text-[#1B6B93] mb-10">
                         Skills
+                        <button type="button" class="text-sm rounded-lg border-2 border-[#1B6B93] w-6 h-6 hover:text-white hover:bg-[#1B6B93]">
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
                     </div>
                     <div id="skills-container" class="flex-wrap flex gap-5">
                         <% if(cv.getSkills() == null || cv.getSkills().size() < 1) { %>
@@ -127,6 +137,9 @@
                 <div id="education container" class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all w-full h-fit p-10">
                     <div id="title" class="text-2xl font-bold text-[#1B6B93] mb-10">
                         Educations
+                        <button type="button" class="text-sm rounded-lg border-2 border-[#1B6B93] w-6 h-6 hover:text-white hover:bg-[#1B6B93]">
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
                     </div>
                     <div id="educations-container" class="flex flex-col gap-5">
                         <% if(cv.getEducations() == null || cv.getEducations().size() < 1) { %>
@@ -145,6 +158,9 @@
                 <div id="project container" class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all w-full h-fit p-10">
                     <div id="title" class="text-2xl font-bold text-[#1B6B93] mb-10">
                         Projects
+                        <button type="button" class="text-sm rounded-lg border-2 border-[#1B6B93] w-6 h-6 hover:text-white hover:bg-[#1B6B93]">
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
                     </div>
                     <% if(cv.getProjects() == null || cv.getProjects().size() < 1) { %>
                         <div id="no-skill-issue" class="italic text-slate-800 text-lg">

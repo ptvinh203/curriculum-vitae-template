@@ -3,11 +3,9 @@ package controller;
 import java.io.IOException;
 import java.util.UUID;
 
-import controller.util.CookieUtil;
 import controller.util.UserSessionUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -34,10 +32,18 @@ public class CVServlet extends HttpServlet {
             return;
         }
         req.setAttribute("cv", cv);
-        if(mode == null || mode != "edit") {
-            req.getRequestDispatcher("cv-view.jsp").forward(req, resp);
+        if(mode != null && mode.equalsIgnoreCase("edit")) {
+            UserSessionUtil.ensureUser(req);
+            UserDTO user = (UserDTO) req.getSession().getAttribute("current_user");
+            if(user == null || !user.getUserid().equals(cv.getUser().getUserid())) {
+                resp.sendRedirect(String.format("?cvid=%s", uuidStr));
+                return;
+            }
+            req.getRequestDispatcher("cv-edit.jsp").forward(req, resp);
             return;
         }
+        req.getRequestDispatcher("cv-view.jsp").forward(req, resp);
+        return;
     }
 
     @Override

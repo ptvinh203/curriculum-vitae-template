@@ -42,11 +42,9 @@
                 </div>
             </a>
         </div>
-        <div id="content-container" class="w-[calc(100%-18rem)] h-full bg-gray-400 rounded-t-3xl bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100 mb-5 mr-5 p-10 overflow-y-scroll scroll-smooth">
+        <form name="form" id="content-container" class="w-[calc(100%-18rem)] h-full bg-gray-400 rounded-t-3xl bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100 mb-5 mr-5 p-10 overflow-y-scroll scroll-smooth">
             <div id="content" class="flex-col flex gap-10">
-                <div id="cv-name" class="text-4xl font-bold text-[#164B60]">
-                    <%=cv.getCvName()%>
-                </div>
+                <input name="cvName" id="cv-name" class="text-2xl font-bold text-[#164B60] p-2 border-2 border-slate-300 rounded-xl" value="<%=cv.getCvName()%>" placeholder="CV's name" />
                 <div id="basic-info container" class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all w-full h-fit p-10">
                     <div id="title" class="text-2xl font-bold text-[#1B6B93] mb-10">
                         Basic information
@@ -58,33 +56,25 @@
                                 <div id="label" class="font-bold text-lg text-[#164B60]">
                                     Fullname:
                                 </div>
-                                <div id="value" class="text-lg text-slate-600 font-medium">
-                                    <%=cv.getBasicInfo().getName()%>
-                                </div>
+                                <input name="fullname" id="value" class="text-lg text-slate-600 font-medium p-1 rounded-lg border-2 border-slate-300" value="<%=cv.getBasicInfo().getName()%>" placeholder="Your name" />
                             </div>
                             <div id="field" class="flex gap-5 items-center">
                                 <div id="label" class="font-bold text-lg text-[#164B60]">
                                     Email:
                                 </div>
-                                <div id="value" class="text-lg text-slate-600 font-medium">
-                                    <%=cv.getBasicInfo().getEmail()%>
-                                </div>
+                                <input name="email" id="value" class="text-lg text-slate-600 font-medium p-1 rounded-lg border-2 border-slate-300" value="<%=cv.getBasicInfo().getEmail()%>" placeholder="Your email" />
                             </div>
                             <div id="field" class="flex gap-5 items-center">
                                 <div id="label" class="font-bold text-lg text-[#164B60]">
                                     Phone number:
                                 </div>
-                                <div id="value" class="text-lg text-slate-600 font-medium">
-                                    <%=cv.getBasicInfo().getPhone()%>
-                                </div>
+                                <input name="phoneNumber" id="value" class="text-lg text-slate-600 font-medium p-1 rounded-lg border-2 border-slate-300" value="<%=cv.getBasicInfo().getPhone()%>" placeholder="Your phone number" />
                             </div>
                             <div id="field" class="flex gap-5 items-center">
                                 <div id="label" class="font-bold text-lg text-[#164B60]">
                                     Address:
                                 </div>
-                                <div id="value" class="text-lg text-slate-600 font-medium">
-                                    <%=cv.getBasicInfo().getAddress()%>
-                                </div>
+                                <input name="address" id="value" class="text-lg text-slate-600 font-medium p-1 rounded-lg border-2 border-slate-300" value="<%=cv.getBasicInfo().getAddress()%>" placeholder="Your address" />
                             </div>
                         </div>
 
@@ -93,9 +83,7 @@
                                 <div id="title" class="text-xl font-semibold text-slate-800">
                                     About me
                                 </div>
-                                <p class="italic text-slate-600">
-                                    <%=cv.getBasicInfo().getAboutMe()%>
-                                </p>
+                                <textarea name="aboutMe" class="italic text-slate-600 p-2 border-2 border-slate-300 rounded-xl" cols="50" rows="10" placeholder="About your self"><%=cv.getBasicInfo().getAboutMe()%></textarea>
                             </div>
                             <div id="refrence-links-container">
                                 <div id="github" class="flex gap-5 items-center">
@@ -103,9 +91,7 @@
                                         <i class="fa-brands fa-github"></i>
                                         Github:
                                     </div>
-                                    <a href="<%=cv.getBasicInfo().getGithub()%>" target="_blank" id="github-link" class="text-lg text-slate-600 italic">
-                                        <%=cv.getBasicInfo().getGithub()%>
-                                    </a>
+                                    <input name="githubLink" id="value" class="text-lg text-slate-600 font-medium p-1 rounded-lg border-2 border-slate-300" value="<%=cv.getBasicInfo().getGithub()%>" placeholder="Your github link" />
                                 </div>
                                 <!-- <div id="facebook" class="flex gap-5 items-center">
                                     <div id="facebook-label" class="text-lg font-semibold text-[#1778F2]">
@@ -173,7 +159,7 @@
                     <% } %>
                 </div>
             </div>
-        </div>
+        </form>
     </div>
 </body>
 </html>

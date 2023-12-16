@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 09, 2023 at 05:52 AM
+-- Generation Time: Dec 16, 2023 at 09:21 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -139,6 +139,14 @@ CREATE TABLE `userrole` (
   `role_name` varchar(1000) NOT NULL,
   `permission` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `userrole`
+--
+
+INSERT INTO `userrole` (`role_id`, `role_name`, `permission`) VALUES
+('6db18eb2-9bd4-4c93-944c-364581c1c975', 'USER', 1),
+('c9317a61-9e7b-4a6a-a5bc-cacc4329872f', 'GUEST', 0);
 
 --
 -- Indexes for dumped tables

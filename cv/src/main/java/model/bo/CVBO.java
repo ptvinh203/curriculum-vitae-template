@@ -180,7 +180,8 @@ public class CVBO {
                     }
                 });
             }
-
+            cv.setCvName(cvdto.getCvName());
+            cv = cvdao.update(cv).orElse(null);
             return CVDTO.fromEntity(cv);
         } catch (JWTVerificationException e) {
             System.out.println("===> JWTVerificationException: " + e.toString());

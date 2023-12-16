@@ -54,10 +54,20 @@ public class BaseDAO<T extends Entity<U>, U> {
     }
 
     public Optional<T> update(T entity) {
+        Entry<String, U> primaryEntry = entity.getPrimaryValue();
+        U id = primaryEntry.getValue();
+        String condition;
+        if (id instanceof Number) {
+            condition = String.format("%s=%s", primaryEntry.getKey(), id);
+        } else {
+            condition = String.format("%s='%s'", primaryEntry.getKey().toString(), id);
+        }
         try {
             new Query<>(tableName, QueryType.UPDATE, DBUtil.getInstance(), baseClass)
                 .value(entity)
+                .where(condition)
                 .query();
+            return Optional.of(entity);
         } catch (Exception e) {
             e.printStackTrace();
         }

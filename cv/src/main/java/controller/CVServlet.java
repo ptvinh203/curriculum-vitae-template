@@ -89,5 +89,31 @@ public class CVServlet extends HttpServlet {
         String address = req.getParameter("address");
         String aboutMe = req.getParameter("aboutMe");
         String githubLink = req.getParameter("githubLink");
+
+        if(cvName != null && !cvName.isEmpty()) {
+            cv.setCvName(cvName);
+        }
+
+        if(fullname != null && !fullname.isEmpty()) {
+            cv.getBasicInfo().setName(fullname);
+        }
+        if(email != null && !email.isEmpty()) {
+            cv.getBasicInfo().setEmail(email);
+        }
+        if(phoneNumber != null && !phoneNumber.isEmpty()) {
+            cv.getBasicInfo().setPhone(phoneNumber);
+        }
+        if(address != null && !address.isEmpty()) {
+            cv.getBasicInfo().setAddress(address);
+        }
+        if(aboutMe != null && !aboutMe.isEmpty()) {
+            cv.getBasicInfo().setAboutMe(aboutMe);
+        }
+        if(githubLink != null && !githubLink.isEmpty()) {
+            cv.getBasicInfo().setGithub(githubLink);
+        }
+
+        cvbo.updateCV(CookieUtil.getCookie(req, "token").getValue(), cvId, cv);
+        resp.sendRedirect("");
     }
 }

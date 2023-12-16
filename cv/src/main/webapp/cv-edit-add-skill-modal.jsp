@@ -1,5 +1,5 @@
 <script>
-    function close_this_modal() {
+    function close_skill_modal() {
         document.getElementById("skill-modal").style.display = "none";
     }
 </script>
@@ -15,7 +15,7 @@
                 <input type="text" class="text-lg border-2 border-slate-800 rounded p-1" name="skillName" placeholder="Skill name">
             </div>
             <div id="button-group" class="flex justify-between mt-5 px-10">
-                <button type="button" class="w-1/6 rounded-xl border-2 border-slate-800 hover:bg-[#1B6B93] hover:text-white" onclick="close_this_modal()">
+                <button type="button" class="w-1/6 rounded-xl border-2 border-slate-800 hover:bg-[#1B6B93] hover:text-white" onclick="close_skill_modal()">
                     Cancel
                 </button>
                 <button type="button" class="w-1/6 rounded-xl border-2 border-slate-800 hover:bg-[#1B6B93] hover:text-white">

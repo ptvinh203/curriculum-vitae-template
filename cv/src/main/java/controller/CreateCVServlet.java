@@ -32,6 +32,6 @@ public class CreateCVServlet extends HttpServlet {
         cv.setUser(user);
         cv = cvbo.createCV(authCookie.getValue(), cv);
 
-        resp.sendRedirect("/cv/cv?cvid="+cv.getCvId().toString());
+        resp.sendRedirect("/cv/cv?cvid="+cv.getCvId().toString()+"&mode=edit");
     }
 }

@@ -86,7 +86,6 @@
                                 <input name="address" id="value" class="text-lg text-slate-600 font-medium p-1 rounded-lg border-2 border-slate-300" value="<%=cv.getBasicInfo().getAddress()%>" placeholder="Your address" />
                             </div>
                         </div>
-
                         <div class="w-1/3 flex flex-col justify-between">
                             <div id="about-me">
                                 <div id="title" class="text-xl font-semibold text-slate-800">
@@ -115,6 +114,9 @@
                         </div>
                     </div>
                 </div>
+                <button class="border-2 border-[#1B6B93] bg-[#1B6B93] text-white hover:text-[#1B6B93] hover:bg-white rounded-xl text-xl p-2 w-1/4 shadow-xl">
+                    Save
+                </button>
                 <div id="skill container" class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all w-full h-fit p-10">
                     <div id="title" class="text-2xl font-bold text-[#1B6B93] mb-10">
                         Skills

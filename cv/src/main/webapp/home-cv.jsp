@@ -8,7 +8,7 @@
     <div id="cv-id" class="italic text-slate-400">ID: <%=cvUUID%></div>
   </a>
   <div id="function-buttons" class="flex gap-5">
-    <button class="rounded text-slate-400 border-2 border-slate-400 bg-white hover:border-slate-600 hover:bg-green-500 hover:text-white p-3"><i class="fa-solid fa-pen-to-square"></i></button>
+    <a href="/cv/cv?cvid=<%=cvUUID%>&mode=edit" class="rounded text-slate-400 border-2 border-slate-400 bg-white hover:border-slate-600 hover:bg-green-500 hover:text-white p-3"><i class="fa-solid fa-pen-to-square"></i></a>
     <button class="rounded text-slate-400 border-2 border-slate-400 bg-white hover:border-slate-600 hover:bg-red-500 hover:text-white p-3"><i class="fa-solid fa-trash"></i></button>
   </div>
 </div>

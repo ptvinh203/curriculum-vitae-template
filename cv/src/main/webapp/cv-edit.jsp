@@ -8,18 +8,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile</title>
+    <title>CV - Edit</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script>
         function open_modal(modal) {
-            document.getElementById(modal).style.display = "block"
+            document.getElementById(modal).style.display = "flex"
         }
     </script>
 </head>
 <body class="h-screen">
     <jsp:include page="navbar.jsp" />
     <jsp:include page="cv-edit-add-skill-modal.jsp" />
+    <jsp:include page="cv-edit-add-edu-modal.jsp" />
+    <jsp:include page="cv-edit-add-project-modal.jsp" />
     <% CVDTO cv = (CVDTO) request.getAttribute("cv"); %>
     <div id="botton-navbar" class="h-[calc(100%-5rem)] flex flex-1 flex-row">
         <div id="sidebar" class="h-full w-72 flex-col flex gap-10 px-10 py-20">
@@ -137,7 +139,7 @@
                 <div id="education container" class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all w-full h-fit p-10">
                     <div id="title" class="text-2xl font-bold text-[#1B6B93] mb-10">
                         Educations
-                        <button type="button" class="text-sm rounded-lg border-2 border-[#1B6B93] w-6 h-6 hover:text-white hover:bg-[#1B6B93]" onclick="open_modal('education-modal')">
+                        <button type="button" class="text-sm rounded-lg border-2 border-[#1B6B93] w-6 h-6 hover:text-white hover:bg-[#1B6B93]" onclick="open_modal('edu-modal')">
                             <i class="fa-solid fa-plus"></i>
                         </button>
                     </div>

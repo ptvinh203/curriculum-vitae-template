@@ -116,7 +116,7 @@
                 <div id="skill container" class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all w-full h-fit p-10">
                     <div id="title" class="text-2xl font-bold text-[#1B6B93] mb-10">
                         Skills
-                        <button type="button" class="text-sm rounded-lg border-2 border-[#1B6B93] w-6 h-6 hover:text-white hover:bg-[#1B6B93]">
+                        <button type="button" class="text-sm rounded-lg border-2 border-[#1B6B93] w-6 h-6 hover:text-white hover:bg-[#1B6B93]" onclick="open_modal('skill-modal')">
                             <i class="fa-solid fa-plus"></i>
                         </button>
                     </div>
@@ -137,7 +137,7 @@
                 <div id="education container" class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all w-full h-fit p-10">
                     <div id="title" class="text-2xl font-bold text-[#1B6B93] mb-10">
                         Educations
-                        <button type="button" class="text-sm rounded-lg border-2 border-[#1B6B93] w-6 h-6 hover:text-white hover:bg-[#1B6B93]">
+                        <button type="button" class="text-sm rounded-lg border-2 border-[#1B6B93] w-6 h-6 hover:text-white hover:bg-[#1B6B93]" onclick="open_modal('education-modal')">
                             <i class="fa-solid fa-plus"></i>
                         </button>
                     </div>
@@ -158,7 +158,7 @@
                 <div id="project container" class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all w-full h-fit p-10">
                     <div id="title" class="text-2xl font-bold text-[#1B6B93] mb-10">
                         Projects
-                        <button type="button" class="text-sm rounded-lg border-2 border-[#1B6B93] w-6 h-6 hover:text-white hover:bg-[#1B6B93]">
+                        <button type="button" class="text-sm rounded-lg border-2 border-[#1B6B93] w-6 h-6 hover:text-white hover:bg-[#1B6B93]" onclick="open_modal('project-modal')">
                             <i class="fa-solid fa-plus"></i>
                         </button>
                     </div>

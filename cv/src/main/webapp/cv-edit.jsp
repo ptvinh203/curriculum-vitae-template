@@ -50,7 +50,7 @@
                 </div>
             </a>
         </div>
-        <form name="form" action="" method="PUT" id="content-container" class="w-[calc(100%-18rem)] h-full bg-gray-400 rounded-t-3xl bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100 mb-5 mr-5 p-10 overflow-y-scroll scroll-smooth">
+        <form name="form" action="" method="POST" id="content-container" class="w-[calc(100%-18rem)] h-full bg-gray-400 rounded-t-3xl bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100 mb-5 mr-5 p-10 overflow-y-scroll scroll-smooth">
             <input name="cvid" value="<%=cv.getCvId().toString()%>" type="text" hidden>
             <div id="content" class="flex-col flex gap-10">
                 <input name="cvName" id="cv-name" class="text-2xl font-bold text-[#164B60] p-2 border-2 border-slate-300 rounded-xl" value="<%=cv.getCvName()%>" placeholder="CV's name" />
@@ -59,7 +59,11 @@
                         Basic information
                     </div>
                     <div class="flex gap-10">
-                        <img src="static/blank-avatar.jpg" alt="" width="300" height="300">
+                        <img
+                            src="static/blank-avatar.jpg"
+                            alt=""
+                            class="aspect-square w-1/4"
+                        />
                         <div class="flex-wrap flex flex-col gap-5 justify-center w-1/3">
                             <div id="field" class="flex gap-5 items-center">
                                 <div id="label" class="font-bold text-lg text-[#164B60]">

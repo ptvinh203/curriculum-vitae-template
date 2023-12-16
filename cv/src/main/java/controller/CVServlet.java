@@ -48,6 +48,30 @@ public class CVServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        if(!UserSessionUtil.ensureUser(req)) {
+            resp.sendRedirect("/cv/login");
+            return;
+        }
+        String cvId = req.getParameter("cvid");
+        if(cvId == null) {
+            resp.sendRedirect("/cv/home");
+            return;
+        }
 
+        CVDTO cv = cvbo.getById(UUID.fromString(cvId));
+        UserDTO user = (UserDTO) req.getSession().getAttribute("current_user");
+
+        if(!user.getUserid().equals(cv.getUser().getUserid())) {
+            resp.sendRedirect("/cv/home");
+            return;
+        }
+
+        String cvName = req.getParameter("cvName");
+        String fullname = req.getParameter("fullname");
+        String email = req.getParameter("email");
+        String phoneNumber = req.getParameter("phoneNumber");
+        String address = req.getParameter("address");
+        String aboutMe = req.getParameter("aboutMe");
+        String githubLink = req.getParameter("githubLink");
     }
 }

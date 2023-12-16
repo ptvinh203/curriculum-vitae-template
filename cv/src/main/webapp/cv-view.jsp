@@ -52,7 +52,11 @@
                         Basic information
                     </div>
                     <div class="flex gap-10">
-                        <img src="static/blank-avatar.jpg" alt="" width="300" height="300">
+                        <img
+                            src="static/blank-avatar.jpg"
+                            alt=""
+                            class="aspect-square w-1/4"
+                        />
                         <div class="flex-wrap flex flex-col gap-5 justify-center w-1/3">
                             <div id="field" class="flex gap-5 items-center">
                                 <div id="label" class="font-bold text-lg text-[#164B60]">

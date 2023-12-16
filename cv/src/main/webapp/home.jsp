@@ -1,6 +1,5 @@
-<%@page import="model.dto.UserDTO"%>
-<%@page import="model.dto.CVDTO"%>
-<%@ page contentType="text/html; charset=UTF-8" %>
+<%@page import="model.dto.UserDTO"%> <%@page import="model.dto.CVDTO"%> <%@ page
+contentType="text/html; charset=UTF-8" %>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -49,112 +48,132 @@
       </div>
     </div> -->
     <div id="botton-navbar" class="h-[calc(100%-5rem)] flex flex-1 flex-row">
-      <div id="sidebar" class="h-full w-72 flex-col flex gap-10 px-10 py-20">
-        <div id="sidebar-item-name">Basic info</div>
-        <a
-          href="#basic-info"
-          id="sidebar-item"
-          class="text-xl text-slate-500 font-semibold hover:text-[#4FC0D0] transition-all flex items-center gap-5 justify-start"
-        >
-          <i class="fa fa-user w-1/4 justify-center flex"></i>
-          <div id="sidebar-item-name">Basic info</div>
-        </a>
-      </div>
+      <div
+        id="sidebar"
+        class="h-full w-72 flex-col flex gap-10 px-10 py-20"
+      ></div>
       <div
         id="content-container"
         class="w-[calc(100%-18rem)] h-full bg-gray-400 rounded-t-3xl bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100 mb-5 mr-5 p-10 overflow-y-auto scroll-smooth"
       >
-        <div id="welcome-title" class="text-3xl font-semibold text-slate-500 mb-5">
-            Welcome to your profile
+        <div
+          id="welcome-title"
+          class="text-3xl font-semibold text-slate-500 mb-5"
+        >
+          Welcome to your profile
         </div>
-        <div id="welcome-name" class="text-4xl font-bold text-[#164B60]">
+        <div id="welcome-name" class="text-4xl mb-1 font-bold text-[#164B60]">
           <%=user.getFirstname()%> <%=user.getLastname()%>
         </div>
         <div id="user-id" class="text-slate-400">
-            ID: <%=user.getUserid().toString()%>
+          ID: <%=user.getUserid().toString()%>
         </div>
         <div id="row" class="flex gap-5">
-            <div id="profile-info container" class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all w-full h-fit min-h-[50vh] p-10 mt-10">
-                <div id="title" class="text-2xl font-bold text-[#1B6B93] mb-10">
-                    Profile information
-                </div>
-                <div class="flex gap-10">
-                    <img src="static/blank-avatar.jpg" alt="" class="aspect-square w-1/4">
-                    <div class="flex-wrap flex flex-col gap-5 justify-center">
-                        <div id="field" class="flex gap-5 items-center">
-                            <div id="label" class="font-bold text-lg text-[#164B60]">
-                                Username:
-                            </div>
-                            <div id="value" class="text-lg text-slate-600 font-medium">
-                                <%=user.getUsername()%>
-                            </div>
-                        </div>
-                        <div id="field" class="flex gap-5 items-center">
-                            <div id="label" class="font-bold text-lg text-[#164B60]">
-                                Firstname:
-                            </div>
-                            <div id="value" class="text-lg text-slate-600 font-medium">
-                                <%=user.getFirstname()%>
-                            </div>
-                        </div>
-                        <div id="field" class="flex gap-5 items-center">
-                            <div id="label" class="font-bold text-lg text-[#164B60]">
-                                Lastname:
-                            </div>
-                            <div id="value" class="text-lg text-slate-600 font-medium">
-                                <%=user.getLastname()%>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id="statistic-info container" class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all w-full h-fit min-h-[50vh] p-10 mt-10">
-                <div id="title" class="text-2xl font-bold text-[#1B6B93] mb-10">
-                    Statistic
-                </div>
-                <div class="flex gap-10">
-                    <div class="flex-wrap flex flex-col gap-5 justify-center">
-                        <div id="field" class="flex gap-5 items-center">
-                            <div id="label" class="font-bold text-lg text-[#164B60]">
-                                You have
-                            </div>
-                            <div id="label" class="font-bold text-lg text-slate-800">
-                                <%=user.getCvs().size()%>
-                            </div>
-                            <div id="label" class="font-bold text-lg text-[#164B60]">
-                                CV
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div id="cv-info container" class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all w-full h-fit p-10 mt-10">
+          <div
+            id="profile-info container"
+            class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all w-full h-fit min-h-[50vh] p-10 mt-10"
+          >
             <div id="title" class="text-2xl font-bold text-[#1B6B93] mb-10">
-                Your CV
+              Profile information
             </div>
-            <% if(user.getCvs().size() < 1) { %>
-            <div class="flex gap-10 italic text-lg text-slate-800">
-                It seems that you haven't created any CV yet.
-            </div>
-            <a href="cv/create" class="flex gap-10 font-semibold text-[#1B6B93] text-lg">
-                Create one
-            </a>
-            <% } else { %>
-              <a href="cv/create" class="flex gap-10 font-semibold text-[#1B6B93] text-lg">
-                Create one
-              </a>
-              <div id="cvs-container" class="flex flex-col gap-5">
-                <% for(CVDTO cv : user.getCvs()) { 
-                  String name = cv.getCvName();
-                  String uuid = cv.getCvId().toString();
-                  request.setAttribute("cvName", name);
-                  request.setAttribute("cvUUID", uuid);
-                %>
-                  <jsp:include page="home-cv.jsp" />
-                <% } %>
+            <div class="flex gap-10">
+              <img
+                src="static/blank-avatar.jpg"
+                alt=""
+                class="aspect-square w-1/4"
+              />
+              <div class="flex-wrap flex flex-col gap-5 justify-center">
+                <div id="field" class="flex gap-5 items-center">
+                  <div id="label" class="font-bold text-lg text-[#164B60]">
+                    Username:
+                  </div>
+                  <div id="value" class="text-lg text-slate-600 font-medium">
+                    <%=user.getUsername()%>
+                  </div>
+                </div>
+                <div id="field" class="flex gap-5 items-center">
+                  <div id="label" class="font-bold text-lg text-[#164B60]">
+                    Firstname:
+                  </div>
+                  <div id="value" class="text-lg text-slate-600 font-medium">
+                    <%=user.getFirstname()%>
+                  </div>
+                </div>
+                <div id="field" class="flex gap-5 items-center">
+                  <div id="label" class="font-bold text-lg text-[#164B60]">
+                    Lastname:
+                  </div>
+                  <div id="value" class="text-lg text-slate-600 font-medium">
+                    <%=user.getLastname()%>
+                  </div>
+                </div>
               </div>
+            </div>
+          </div>
+          <div
+            id="statistic-info container"
+            class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all w-full h-fit min-h-[50vh] p-10 mt-10"
+          >
+            <div id="title" class="text-2xl font-bold text-[#1B6B93] mb-10">
+              Statistic
+            </div>
+            <div class="flex gap-10">
+              <div class="flex-wrap flex flex-col gap-5 justify-center">
+                <div id="field" class="flex gap-5 items-center">
+                  <div id="label" class="font-bold text-lg text-[#164B60]">
+                    You have
+                  </div>
+                  <div id="label" class="font-bold text-lg text-slate-800">
+                    <%=user.getCvs().size()%>
+                  </div>
+                  <div id="label" class="font-bold text-lg text-[#164B60]">
+                    CV
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          id="cv-info container"
+          class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all w-full h-fit p-10 mt-10"
+        >
+          <div id="title" class="text-2xl font-bold text-[#1B6B93] mb-10">
+            Your CV <% if(user.getCvs().size() > 0) { %>
+            <a
+              href="cv/create"
+              class="text-sm rounded-lg border-2 border-[#1B6B93] px-1 w-6 h-6 hover:text-white hover:bg-[#1B6B93]"
+            >
+              <i class="fa-solid fa-plus"></i>
+            </a>
+            <% }%>
+          </div>
+          <% if(user.getCvs().size() < 1) { %>
+          <div class="flex gap-10 italic text-lg text-slate-800">
+            It seems that you haven't created any CV yet.
+          </div>
+          <a
+            href="cv/create"
+            class="flex gap-10 font-semibold text-[#1B6B93] text-lg"
+          >
+            Create one
+          </a>
+          <% } else { %>
+          <!-- <a
+            href="cv/create"
+            class="flex gap-10 font-semibold text-[#1B6B93] text-lg"
+          >
+            Create one
+          </a> -->
+          <div id="cvs-container" class="flex flex-col gap-5">
+            <% for(CVDTO cv : user.getCvs()) { String name = cv.getCvName();
+            String uuid = cv.getCvId().toString();
+            request.setAttribute("cvName", name); request.setAttribute("cvUUID",
+            uuid); %>
+            <jsp:include page="home-cv.jsp" />
             <% } %>
+          </div>
+          <% } %>
         </div>
       </div>
     </div>

@@ -3,6 +3,7 @@ package controller;
 import java.io.IOException;
 import java.util.UUID;
 
+import controller.util.CookieUtil;
 import controller.util.UserSessionUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -17,30 +18,45 @@ import model.dto.UserDTO;
 public class CVServlet extends HttpServlet {
 
     private CVBO cvbo = CVBO.getInstance();
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String uuidStr = req.getParameter("cvid");
         String mode = req.getParameter("mode");
-        if(uuidStr == null) {
+        if (uuidStr == null) {
             resp.sendRedirect("home");
             return;
         }
         UUID cvid = UUID.fromString(req.getParameter("cvid"));
         CVDTO cv = cvbo.getById(cvid);
-        if(cv == null) {
+        if (cv == null) {
             resp.sendRedirect("home");
             return;
         }
         req.setAttribute("cv", cv);
-        if(mode != null && mode.equalsIgnoreCase("edit")) {
+        if (mode != null) {
             UserSessionUtil.ensureUser(req);
             UserDTO user = (UserDTO) req.getSession().getAttribute("current_user");
-            if(user == null || !user.getUserid().equals(cv.getUser().getUserid())) {
-                resp.sendRedirect(String.format("?cvid=%s", uuidStr));
-                return;
+            switch (mode.toLowerCase()) {
+                case "edit":
+                    if (user == null || !user.getUserid().equals(cv.getUser().getUserid())) {
+                        resp.sendRedirect(String.format("?cvid=%s", uuidStr));
+                        return;
+                    }
+                    req.getRequestDispatcher("cv-edit.jsp").forward(req, resp);
+                    return;
+                case "delete":
+                    if (user == null || !user.getUserid().equals(cv.getUser().getUserid())) {
+                        resp.sendRedirect(String.format("?cvid=%s", uuidStr));
+                        return;
+                    }
+                    System.out.println("====> CHECK DELETE CV: " +
+                            cvbo.deleteCV(CookieUtil.getCookie(req, "token").getValue(), cv.getCvId().toString()));
+                    req.getRequestDispatcher("home.jsp").forward(req, resp);
+                    return;
+                default:
+                    break;
             }
-            req.getRequestDispatcher("cv-edit.jsp").forward(req, resp);
-            return;
         }
         req.getRequestDispatcher("cv-view.jsp").forward(req, resp);
         return;

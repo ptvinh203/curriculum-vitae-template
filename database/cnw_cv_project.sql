@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 16, 2023 at 09:21 AM
+-- Generation Time: Dec 16, 2023 at 03:45 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -46,6 +46,7 @@ CREATE TABLE `basicinfo` (
 
 CREATE TABLE `cv` (
   `cv_id` varchar(150) NOT NULL,
+  `cv_name` text NOT NULL,
   `user_Id` varchar(150) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -73,6 +74,13 @@ CREATE TABLE `logindata` (
   `user_id` varchar(150) NOT NULL,
   `password_hash` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `logindata`
+--
+
+INSERT INTO `logindata` (`login_data_id`, `user_id`, `password_hash`) VALUES
+('bf4a67b0-1352-4cf4-8d7a-32d0b340c89d', '93e0752e-be2f-4f3e-863c-0a241e655948', '$2a$10$qJw0KNq6lwcMJvm4wtntEe2/MnQiaxFyTTw4721bgEWwvialjiqUG');
 
 -- --------------------------------------------------------
 
@@ -127,6 +135,13 @@ CREATE TABLE `user` (
   `lastname` text NOT NULL,
   `role_id` varchar(150) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`user_id`, `username`, `email`, `firstname`, `lastname`, `role_id`) VALUES
+('93e0752e-be2f-4f3e-863c-0a241e655948', 'BlenDMinh', 'themysmine@gmail.com', 'Nguyễn Trương', 'Anh Minh', '6db18eb2-9bd4-4c93-944c-364581c1c975');
 
 -- --------------------------------------------------------
 
@@ -264,7 +279,7 @@ ALTER TABLE `skill`
 -- Constraints for table `user`
 --
 ALTER TABLE `user`
-  ADD CONSTRAINT `FK_user_role_id` FOREIGN KEY (`role_id`) REFERENCES `userrole` (`Role_ID`) ON DELETE CASCADE;
+  ADD CONSTRAINT `FK_user_role_id` FOREIGN KEY (`role_id`) REFERENCES `userrole` (`role_id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

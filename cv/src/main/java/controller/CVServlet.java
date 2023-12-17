@@ -114,6 +114,6 @@ public class CVServlet extends HttpServlet {
         }
 
         cvbo.updateCV(CookieUtil.getCookie(req, "token").getValue(), cvId, cv);
-        resp.sendRedirect("");
+        this.doGet(req, resp);
     }
 }

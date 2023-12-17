@@ -4,7 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-import controller.util.CookieUtil;
+import controller.util.UserSessionUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.Cookie;
@@ -12,7 +12,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.bo.AuthenticationBO;
-import model.util.security.JwtUtil;
 
 @WebServlet(urlPatterns = "/login")
 public class LoginServlet extends HttpServlet {
@@ -21,10 +20,7 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Cookie authCookie = CookieUtil.getCookie(req, "token");
-
-        if(authCookie != null && JwtUtil.verifyToken(authCookie.getValue())) {
-            System.out.println(authCookie.getValue());
+        if(UserSessionUtil.ensureUser(req)) {
             resp.sendRedirect("home");
             return;
         }

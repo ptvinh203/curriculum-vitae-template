@@ -17,44 +17,10 @@ contentType="text/html; charset=UTF-8" %>
   <body class="h-screen">
     <jsp:include page="navbar.jsp" />
     <% UserDTO user = (UserDTO) session.getAttribute("current_user"); %>
-    <!-- <div
-      id="navbar"
-      class="h-20 sticky top-0 justify-between flex items-center px-16"
-    >
-      <div class="flex items-center gap-20">
-        <a
-          href="/cv"
-          id="logo"
-          class="font-bold text-4xl font-sans items-center justify-center hover:drop-shadow transition-all flex"
-        >
-          <div class="text-[#4FC0D0]">D</div>
-          <div class="text-[#1B6B93]">M</div>
-          <div class="text-[#164B60]">V</div>
-        </a>
-      </div>
-      <div id="navigation" class="w-5/6 max-h-full flex justify-end">
-        <div
-          id="navbar-item"
-          class="w-40 flex items-center justify-center text-xl text-[#4FC0D0] font-semibold"
-        >
-          <a href="">Create CV</a>
-        </div>
-        <div
-          id="navbar-item"
-          class="w-40 flex items-center justify-center text-xl text-[#4FC0D0] font-semibold"
-        >
-          <a href="profile">My CV</a>
-        </div>
-      </div>
-    </div> -->
     <div id="botton-navbar" class="h-[calc(100%-5rem)] flex flex-1 flex-row">
       <div
-        id="sidebar"
-        class="h-full w-72 flex-col flex gap-10 px-10 py-20"
-      ></div>
-      <div
         id="content-container"
-        class="w-[calc(100%-18rem)] h-full bg-gray-400 rounded-t-3xl bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100 mb-5 mr-5 p-10 overflow-y-auto scroll-smooth"
+        class="w-full h-full bg-gray-400 rounded-t-3xl bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100 mb-5 mr-5 p-10 overflow-y-auto scroll-smooth"
       >
         <div
           id="welcome-title"

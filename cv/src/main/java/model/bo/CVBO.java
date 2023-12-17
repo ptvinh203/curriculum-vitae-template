@@ -148,7 +148,7 @@ public class CVBO {
             if (cvdto.getEducations() != null && !cvdto.getEducations().isEmpty()) {
                 cvdto.getEducations().forEach((education) -> {
                     try {
-                        updateEducation(education);
+                        updateEducation(cvdto.getCvId(), education);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -161,7 +161,7 @@ public class CVBO {
             if (cvdto.getSkills() != null && !cvdto.getSkills().isEmpty()) {
                 cvdto.getSkills().forEach((skill) -> {
                     try {
-                        updateSkill(skill);
+                        updateSkill(cvdto.getCvId(),skill);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -174,7 +174,7 @@ public class CVBO {
             if (cvdto.getProjects() != null && !cvdto.getProjects().isEmpty()) {
                 cvdto.getProjects().forEach((project) -> {
                     try {
-                        updateProject(project);
+                        updateProject(cvdto.getCvId(), project);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -286,8 +286,12 @@ public class CVBO {
         return ProjectDTO.fromEntity(project);
     }
 
-    private ProjectDTO updateProject(ProjectDTO projectDTO) throws NoSuchElementException, Exception {
-        Project project = projectDAO.getById(projectDTO.getProjectId()).orElseThrow();
+    private ProjectDTO updateProject(UUID cvId, ProjectDTO projectDTO) throws NoSuchElementException, Exception {
+        Project project = projectDAO.getById(projectDTO.getProjectId()).orElse(null);
+        if(project == null) {
+            projectDTO = insertProject(cvId, projectDTO);
+            return projectDTO;
+        }
         project.setProjectName(projectDTO.getProjectName());
         project.setTime(projectDTO.getTime());
         project.setNumOfMember(projectDTO.getNumOfMember());
@@ -309,16 +313,28 @@ public class CVBO {
         return ProjectDTO.fromEntity(project);
     }
 
-    private Education updateEducation(Education education) throws NoSuchElementException, Exception {
-        Education entity = educationDAO.getById(education.getEducationId()).orElseThrow();
+    private Education updateEducation(UUID cvId, Education education) throws NoSuchElementException, Exception {
+        Education entity = educationDAO.getById(education.getEducationId()).orElse(null);
+        if(entity == null) {
+            education.setCvId(cvId);
+            education.setEducationId(UUID.randomUUID());
+            entity = educationDAO.insert(education).orElse(null);
+            return entity;
+        }
         entity.setEducationName(education.getEducationName());
         entity.setTime(education.getTime());
         education = educationDAO.update(entity).get();
         return education;
     }
 
-    private Skill updateSkill(Skill skill) throws NoSuchElementException, Exception {
-        Skill entity = skillDAO.getById(skill.getSkillId()).orElseThrow();
+    private Skill updateSkill(UUID cvId, Skill skill) throws NoSuchElementException, Exception {
+        Skill entity = skillDAO.getById(skill.getSkillId()).orElse(null);
+        if(entity == null) {
+            skill.setCvId(cvId);
+            skill.setSkillId(UUID.randomUUID());
+            entity = skillDAO.insert(skill).orElse(null);
+            return entity;
+        }
         entity.setSkillName(skill.getSkillName());
         skill = skillDAO.update(entity).get();
         return skill;
